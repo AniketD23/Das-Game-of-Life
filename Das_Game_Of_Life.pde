@@ -60,7 +60,7 @@ void setup(){
   size(1000,1000);
   background(0);
   stroke(248,144,231);
-  frameRate(2);
+  frameRate(5);
   surface.setSize(SIDE*COL, SIDE*ROW);
   
   
