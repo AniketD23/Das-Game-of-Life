@@ -5,22 +5,20 @@ import java.util.ArrayList;
 final int SIDE = 5;
 
 //Number of columns and rows of cells
-final int COL = 200;
-final int ROW = 300;
+final int COL = 300;
+final int ROW = 150;
 
+// 2D Array of cells representing the board
 Cell[][] cells = new Cell[ROW][COL];
 
 
-
-  
 void setup(){
-  size(1000,1000);
+  size(1500,1000);
   background(0);
-  stroke(248,144,231);
   frameRate(5);
   surface.setSize(SIDE*COL, SIDE*ROW);
   
-  
+  // Populate cells array with Cell objects that have a 15% chance of being alive in the first generation
   for (int i = 0; i < ROW; i++){
     for (int j = 0; j < COL; j++){
       cells[i][j] = new Cell(j*SIDE, i*SIDE, Math.random() < 0.15);
@@ -47,7 +45,7 @@ void draw(){
   line(0, 1, width, 1);
 
   
-    // Living neighbors this generation 
+  // Count living neighbors this generation 
   for (int i = 0; i < ROW; i++){
     for (int j = 0; j < COL; j++){
       if (i != 0 && cells[i - 1][j].isAlive) { // Cell above is a neighbor
@@ -78,69 +76,14 @@ void draw(){
     }
   }
     
-  //for(int i = 0; i < ROW; i++){
-  //  for(int j = 0; j < COL; j++){
-  //    if(i == 0 && j == 0){ //top left corner
-  //        cells[i][j].neighbors[0] = cells[i][j+1].isAlive; //right
-  //        cells[i][j].neighbors[1] = cells[i+1][j].isAlive; //below
-  //        cells[i][j].neighbors[2] = cells[i+1][j+1].isAlive; //below right
-  //    } else if (i == 0 && j == COL-1){ //top right corner
-  //        cells[i][j].neighbors[0] = cells[i][j-1].isAlive; //left
-  //        cells[i][j].neighbors[1] = cells[i+1][j-1].isAlive; //below left
-  //        cells[i][j].neighbors[2] = cells[i+1][j].isAlive; //below
-  //    } else if (i == ROW-1 && j == 0){ //bottom left corner
-  //        cells[i][j].neighbors[0] = cells[i-1][j].isAlive; //above
-  //        cells[i][j].neighbors[1] = cells[i-1][j+1].isAlive; //above right
-  //        cells[i][j].neighbors[2] = cells[i][j+1].isAlive; //right
-  //    } else if (i == ROW-1 && j == COL-1){ //bottom right corner
-  //        cells[i][j].neighbors[0] = cells[i-1][j-1].isAlive; //above left
-  //        cells[i][j].neighbors[1] = cells[i-1][j].isAlive; //above;
-  //        cells[i][j].neighbors[2] = cells[i][j-1].isAlive; //left
-  //    } else if (i == 0){ //top row
-  //        cells[i][j].neighbors[0] = cells[i][j-1].isAlive; //left
-  //        cells[i][j].neighbors[1] = cells[i][j+1].isAlive; //right
-  //        cells[i][j].neighbors[2] = cells[i+1][j-1].isAlive; //below left
-  //        cells[i][j].neighbors[3] = cells[i+1][j].isAlive; //below
-  //        cells[i][j].neighbors[4] = cells[i+1][j+1].isAlive; //below right
-  //    } else if (i == ROW-1){ //bottom row
-  //        cells[i][j].neighbors[0] = cells[i-1][j-1].isAlive; //above left
-  //        cells[i][j].neighbors[1] = cells[i-1][j].isAlive; //above;
-  //        cells[i][j].neighbors[2] = cells[i-1][j+1].isAlive; //above right
-  //        cells[i][j].neighbors[3] = cells[i][j-1].isAlive; //left
-  //        cells[i][j].neighbors[4] = cells[i][j+1].isAlive; //right
-  //    } else if (j == 0){ //left column
-  //        cells[i][j].neighbors[0] = cells[i-1][j].isAlive; //above
-  //        cells[i][j].neighbors[1] = cells[i-1][j+1].isAlive; //above right
-  //        cells[i][j].neighbors[2] = cells[i][j+1].isAlive; //right
-  //        cells[i][j].neighbors[3] = cells[i+1][j].isAlive; //below
-  //        cells[i][j].neighbors[4] = cells[i+1][j+1].isAlive; //below right
-  //    } else if (j == COL-1){ //right column
-  //        cells[i][j].neighbors[0] = cells[i-1][j-1].isAlive; //above left
-  //        cells[i][j].neighbors[1] = cells[i-1][j].isAlive; //above
-  //        cells[i][j].neighbors[2] = cells[i][j-1].isAlive; //left
-  //        cells[i][j].neighbors[3] = cells[i+1][j-1].isAlive; //below left
-  //        cells[i][j].neighbors[4] = cells[i+1][j].isAlive; //below
-  //    } else{ //all the other cells (with the pumped up kicks)
-  //        cells[i][j].neighbors[0] = cells[i-1][j-1].isAlive; //above left 
-  //        cells[i][j].neighbors[1] = cells[i-1][j].isAlive; //above
-  //        cells[i][j].neighbors[2] = cells[i-1][j+1].isAlive; //above right
-  //        cells[i][j].neighbors[3] = cells[i][j-1].isAlive; //left
-  //        cells[i][j].neighbors[4] = cells[i][j+1].isAlive; //right
-  //        cells[i][j].neighbors[5] = cells[i+1][j-1].isAlive; //below left
-  //        cells[i][j].neighbors[6] = cells[i+1][j].isAlive; //below
-  //        cells[i][j].neighbors[7] = cells[i+1][j+1].isAlive; //below right
-  //    }
-  //  }
-  //}
-  
   //determine whether each cell will be alive in the next generation
   for (int i = 0; i < ROW; i++){
     for (int j = 0; j < COL; j++){
-      if( cells[i][j].isAlive && (cells[i][j].livingNeighbors == 2 || cells[i][j].livingNeighbors == 3) ){
+      if( cells[i][j].isAlive && (cells[i][j].livingNeighbors == 2 || cells[i][j].livingNeighbors == 3) ){ // Living cell with 2 or 3 living neighbors stays alive
         cells[i][j].nextGen = true;
-      } else if (!(cells[i][j].isAlive) && cells[i][j].livingNeighbors == 3){
+      } else if (!(cells[i][j].isAlive) && cells[i][j].livingNeighbors == 3){ // Dead cell with 3 neighbors comes to life
           cells[i][j].nextGen = true;
-      } else{
+      } else{ // All other cells die or stay dead
           cells[i][j].nextGen = false;
       }
     }
